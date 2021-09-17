@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dio.model.Localidade;
+import com.dio.model.Usuario;
 import com.dio.service.LocalidadeService;
 
 @RestController
 @RequestMapping("/categoria")
 public class LocalidadeController {
 
+	@Autowired
+	Usuario usuario;
+	
 	@Autowired
 	LocalidadeService service;
 
@@ -52,5 +56,11 @@ public class LocalidadeController {
 	public ResponseEntity<Void> deleteLocalidadeById(@PathVariable long codLocalidade) throws Exception {
 		service.deleteById(codLocalidade);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{codUsuario}")
+	public void verificaLiberacaoAcesso (Usuario usuario, Localidade localidade) {
+		String mensagem = service.liberacaoAcesso(usuario, localidade);
+		System.out.println(mensagem);
 	}
 }
